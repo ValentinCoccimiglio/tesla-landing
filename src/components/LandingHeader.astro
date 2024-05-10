@@ -2,14 +2,17 @@
 import Logotype from "./Logotype.astro"
 ---
 
-<header class="py-3 px-9 flex items-center fixed top-0 w-full justify-between z-40 text-white">
+<header 
+    id="landing-header"
+    class="py-3 px-9 flex items-center fixed top-0 w-full justify-between z-40 text-white " style="color: black"
+>
 
     <div class="flex flex-grow basis-0">
         <Logotype />
     </div>
 
     <nav>
-        <ul class="flex text-sm [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
+        <ul class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
             <li><a href="#">Model s</a></li>
             <li><a href="#">Model 3</a></li>
             <li><a href="#">Model X</a></li>
@@ -20,7 +23,7 @@ import Logotype from "./Logotype.astro"
     </nav>
 
     <nav class="flex flex-grow justify-end basis-0">
-        <ul class="flex text-sm [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
+        <ul class="flex text-sm [&>li>a]:transition-colors [&>li>a]:duration-500 [&>li>a]:text-current [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2">
             <li><a href="#">Soporte</a></li>
             <li><a href="#">Tienda</a></li>
             <li><a href="#">Cuanto</a></li>
@@ -29,3 +32,25 @@ import Logotype from "./Logotype.astro"
     </nav>
 
 </header>
+
+<script>
+    const $header = document.querySelector('#landing-header') as HTMLElement
+    const observerOptions = {
+        root:null,
+        rootMargin: '0px', //Apenas veo el elemento
+        threshold:0.90 //Porcentaje de visibilidad
+    }
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const { isIntersecting } = entry
+            if (isIntersecting) {
+                const color = entry.target.getAttribute('data-header-color')
+                $header.style.color = color
+            }
+        })
+    }, observerOptions)
+
+    const $sections = document.querySelectorAll(".landing-section")
+    $sections.forEach((section) => observer.observe(section))
+</script>
